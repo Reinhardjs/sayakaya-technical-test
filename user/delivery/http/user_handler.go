@@ -1,6 +1,7 @@
 package http
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 	"time"
@@ -31,6 +32,7 @@ func NewUserHandler(e *echo.Echo, us domain.UserUsecase) {
 		Usecase: us,
 	}
 	e.GET("/users", handler.FetchUser)
+	e.GET("/users/birthday", handler.FetchUserByBirthDay)
 	e.POST("/users", handler.Store)
 	e.GET("/users/:id", handler.GetByID)
 	e.DELETE("/users/:id", handler.Delete)
@@ -50,12 +52,11 @@ func (a *UserHandler) FetchUser(c echo.Context) error {
 func (a *UserHandler) FetchUserByBirthDay(c echo.Context) error {
 	ctx := c.Request().Context()
 
-	// Example string representing a date
-	// Format: "YYYY-MM-DD"
-	dateString := "2024-01-21"
+	month := c.Request().URL.Query().Get("month")
+	day := c.Request().URL.Query().Get("day")
 
 	// Parse the string into a time.Time object
-	date, err := time.Parse("2006-01-02", dateString)
+	date, err := time.Parse("2006-01-02", fmt.Sprintf("0000-%s-%s", month, day))
 	if err != nil {
 		return c.JSON(getStatusCode(err), ResponseError{Message: err.Error()})
 	}
