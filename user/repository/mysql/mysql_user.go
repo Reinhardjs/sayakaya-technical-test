@@ -140,7 +140,7 @@ func (m *mysqlUserRepository) Delete(ctx context.Context, id int64) (err error) 
 }
 
 func (m *mysqlUserRepository) Update(ctx context.Context, ar *domain.User) (err error) {
-	query := `UPDATE user set SET email=?, verifiedStatus=?, birthday=? WHERE ID = ?`
+	query := `UPDATE user SET email=?, verifiedStatus=?, birthday=? WHERE ID=?`
 
 	stmt, err := m.Conn.PrepareContext(ctx, query)
 	if err != nil {
@@ -158,7 +158,7 @@ func (m *mysqlUserRepository) Update(ctx context.Context, ar *domain.User) (err 
 	}
 
 	if affect != 1 {
-		err = fmt.Errorf("weird  Behavior. Total Affected: %d", affect)
+		err = fmt.Errorf("Total Affected: %d", affect)
 		return
 	}
 

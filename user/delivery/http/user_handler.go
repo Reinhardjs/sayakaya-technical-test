@@ -35,6 +35,7 @@ func NewUserHandler(e *echo.Echo, us domain.UserUsecase) {
 	e.GET("/users/birthday", handler.FetchUserByBirthDay)
 	e.POST("/users", handler.Store)
 	e.GET("/users/:id", handler.GetByID)
+	e.PUT("/users/:id", handler.Update)
 	e.DELETE("/users/:id", handler.Delete)
 }
 
@@ -93,6 +94,36 @@ func isRequestValid(m *domain.User) (bool, error) {
 		return false, err
 	}
 	return true, nil
+}
+
+func (a *UserHandler) Update(c echo.Context) (err error) {
+	idP, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		return c.JSON(http.StatusNotFound, domain.ErrNotFound.Error())
+	}
+	id := int64(idP)
+
+	var user domain.User
+	err = c.Bind(&user)
+
+	user.ID = id
+
+	if err != nil {
+		return c.JSON(http.StatusUnprocessableEntity, err.Error())
+	}
+
+	var ok bool
+	if ok, err = isRequestValid(&user); !ok {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	ctx := c.Request().Context()
+	err = a.Usecase.Update(ctx, &user)
+	if err != nil {
+		return c.JSON(getStatusCode(err), ResponseError{Message: err.Error()})
+	}
+
+	return c.JSON(http.StatusCreated, user)
 }
 
 func (a *UserHandler) Store(c echo.Context) (err error) {
