@@ -13,7 +13,7 @@ type User struct {
 }
 
 type UserUsecase interface {
-	Fetch(ctx context.Context) ([]User, string, error)
+	Fetch(ctx context.Context) ([]User, error)
 	GetByID(ctx context.Context, id int64) (User, error)
 	Update(ctx context.Context, ar *User) error
 	Store(context.Context, *User) error

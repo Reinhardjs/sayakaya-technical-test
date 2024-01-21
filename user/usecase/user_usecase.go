@@ -20,13 +20,13 @@ func NewUserUsecase(a domain.UserRepository, timeout time.Duration) domain.UserU
 	}
 }
 
-func (a *userUsecase) Fetch(c context.Context) (res []domain.User, nextCursor string, err error) {
+func (a *userUsecase) Fetch(c context.Context) (res []domain.User, err error) {
 	ctx, cancel := context.WithTimeout(c, a.contextTimeout)
 	defer cancel()
 
 	res, err = a.userRepo.Fetch(ctx)
 	if err != nil {
-		return nil, "", err
+		return nil, err
 	}
 
 	return
