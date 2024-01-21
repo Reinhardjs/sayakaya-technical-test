@@ -12,5 +12,11 @@
         "user": "freedb_user_root",
         "pass": "Z$jg%2DVQ&Qd2j3",
         "name": "freedb_common_db"
+    },
+    "smtp": {
+        "username": "reinhardjonathansilalahi@gmail.com",
+        "password": "0bRqWz5NKpw2gQCF",
+        "host": "smtp-relay.brevo.com",
+        "port": "587"
     }
 }
