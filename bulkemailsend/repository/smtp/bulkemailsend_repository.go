@@ -15,8 +15,14 @@ type bulkEmailSendRepository struct {
 	Sender   string
 }
 
-func NewMysqlUserRepository(username string, password string, host string, port string, sender string) domain.BulkEmailSendRepository {
-	return &bulkEmailSendRepository{}
+func NewBulkEmailSendRepository(username string, password string, host string, port string, sender string) domain.BulkEmailSendRepository {
+	return &bulkEmailSendRepository{
+		Username: username,
+		Password: password,
+		Host:     host,
+		Port:     port,
+		Sender:   sender,
+	}
 }
 
 func (r *bulkEmailSendRepository) BulkSend(bulkEmailSend *domain.BulkEmailSend) (err error) {
