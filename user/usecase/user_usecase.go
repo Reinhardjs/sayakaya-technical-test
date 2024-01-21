@@ -32,6 +32,18 @@ func (a *userUsecase) Fetch(c context.Context) (res []domain.User, err error) {
 	return
 }
 
+func (a *userUsecase) FetchByBirthDay(c context.Context, birthday time.Time) (res []domain.User, err error) {
+	ctx, cancel := context.WithTimeout(c, a.contextTimeout)
+	defer cancel()
+
+	res, err = a.userRepo.FetchByBirthDay(ctx, birthday)
+	if err != nil {
+		return nil, err
+	}
+
+	return
+}
+
 func (a *userUsecase) GetByID(c context.Context, id int64) (res domain.User, err error) {
 	ctx, cancel := context.WithTimeout(c, a.contextTimeout)
 	defer cancel()

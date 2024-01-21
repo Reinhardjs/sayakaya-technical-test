@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
+	"time"
 
 	"github.com/sirupsen/logrus"
 
@@ -64,6 +65,18 @@ func (m *mysqlUserRepository) Fetch(ctx context.Context) (res []domain.User, err
 
 	return
 }
+
+func (m *mysqlUserRepository) FetchByBirthDay(ctx context.Context, birthday time.Time) (res []domain.User, err error) {
+	query := `SELECT * FROM user WHERE DATE(birthday) = ?`
+
+	res, err = m.fetch(ctx, query, birthday)
+	if err != nil {
+		return nil, err
+	}
+
+	return
+}
+
 func (m *mysqlUserRepository) GetByID(ctx context.Context, id int64) (res domain.User, err error) {
 	query := `SELECT * FROM user WHERE ID = ?`
 
