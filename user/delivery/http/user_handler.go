@@ -3,6 +3,7 @@ package http
 import (
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/labstack/echo"
 	"github.com/reinhardjs/sayakaya/domain"
@@ -38,12 +39,33 @@ func NewUserHandler(e *echo.Echo, us domain.UserUsecase) {
 func (a *UserHandler) FetchUser(c echo.Context) error {
 	ctx := c.Request().Context()
 
-	listAr, err := a.Usecase.Fetch(ctx)
+	users, err := a.Usecase.Fetch(ctx)
 	if err != nil {
 		return c.JSON(getStatusCode(err), ResponseError{Message: err.Error()})
 	}
 
-	return c.JSON(http.StatusOK, listAr)
+	return c.JSON(http.StatusOK, users)
+}
+
+func (a *UserHandler) FetchUserByBirthDay(c echo.Context) error {
+	ctx := c.Request().Context()
+
+	// Example string representing a date
+	// Format: "YYYY-MM-DD"
+	dateString := "2024-01-21"
+
+	// Parse the string into a time.Time object
+	date, err := time.Parse("2006-01-02", dateString)
+	if err != nil {
+		return c.JSON(getStatusCode(err), ResponseError{Message: err.Error()})
+	}
+
+	users, err := a.Usecase.FetchByBirthDay(ctx, date)
+	if err != nil {
+		return c.JSON(getStatusCode(err), ResponseError{Message: err.Error()})
+	}
+
+	return c.JSON(http.StatusOK, users)
 }
 
 func (a *UserHandler) GetByID(c echo.Context) error {
