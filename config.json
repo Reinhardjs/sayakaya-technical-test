@@ -14,9 +14,10 @@
         "name": "freedb_common_db"
     },
     "smtp": {
-        "username": "reinhardjonathansilalahi@gmail.com",
-        "password": "0bRqWz5NKpw2gQCF",
-        "host": "smtp-relay.brevo.com",
-        "port": "587"
+        "username": "a406d98dcc8fb8",
+        "password": "596de008ed7fed",
+        "host": "sandbox.smtp.mailtrap.io",
+        "port": "587",
+        "sender": "admin@reinhard.com"
     }
 }
