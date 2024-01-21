@@ -44,7 +44,7 @@
 ]
 ```
 
----
+<br>
 
 ### Example Request Body Payload for `POST` /users :
 ```
@@ -64,6 +64,8 @@
     "birthday": "1999-01-22T00:00:00Z"
 }
 ```
+
+<br>
 
 ### Example Request Body Payload for `PUT` /users/1 :
 ```
@@ -88,3 +90,5 @@
 
 ### Table Schema
 ---
+![image](https://github.com/Reinhardjs/sayakaya-technical-test/assets/7758970/057b52c1-ee07-4f9f-afcc-1f2ea0368809)
+![image](https://github.com/Reinhardjs/sayakaya-technical-test/assets/7758970/0ad0c8a5-11af-4249-8a27-c2869d04d547)
