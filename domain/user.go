@@ -19,3 +19,11 @@ type UserUsecase interface {
 	Store(context.Context, *User) error
 	Delete(ctx context.Context, id int64) error
 }
+
+type UserRepository interface {
+	Fetch(ctx context.Context, cursor string) (res []User, nextCursor string, err error)
+	GetByID(ctx context.Context, id int64) (User, error)
+	Update(ctx context.Context, ar *User) error
+	Store(ctx context.Context, a *User) error
+	Delete(ctx context.Context, id int64) error
+}
