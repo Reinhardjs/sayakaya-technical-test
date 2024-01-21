@@ -5,10 +5,29 @@ import (
 	"fmt"
 	"log"
 	"net/url"
+	"time"
+
+	_ "github.com/go-sql-driver/mysql"
 
 	"github.com/labstack/echo"
 	"github.com/spf13/viper"
+
+	_userHttpDelivery "github.com/reinhardjs/sayakaya/user/delivery/http"
+	_userRepo "github.com/reinhardjs/sayakaya/user/repository/mysql"
+	_userUcase "github.com/reinhardjs/sayakaya/user/usecase"
 )
+
+func init() {
+	viper.SetConfigFile(`config.json`)
+	err := viper.ReadInConfig()
+	if err != nil {
+		panic(err)
+	}
+
+	if viper.GetBool(`debug`) {
+		log.Println("Service RUN on DEBUG mode")
+	}
+}
 
 func main() {
 	dbHost := viper.GetString(`database.host`)
@@ -40,6 +59,11 @@ func main() {
 	}()
 
 	e := echo.New()
+	timeoutContext := time.Duration(viper.GetInt("context.timeout")) * time.Second
+
+	userRepository := _userRepo.NewMysqlUserRepository(dbConn)
+	userUsecase := _userUcase.NewUserUsecase(userRepository, timeoutContext)
+	_userHttpDelivery.NewUserHandler(e, userUsecase)
 
 	log.Fatal(e.Start(viper.GetString("server.address"))) //nolint
 }
