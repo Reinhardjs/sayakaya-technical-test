@@ -13,7 +13,7 @@ type User struct {
 }
 
 type UserUsecase interface {
-	Fetch(ctx context.Context, cursor string) ([]User, string, error)
+	Fetch(ctx context.Context) ([]User, string, error)
 	GetByID(ctx context.Context, id int64) (User, error)
 	Update(ctx context.Context, ar *User) error
 	Store(context.Context, *User) error
@@ -21,7 +21,7 @@ type UserUsecase interface {
 }
 
 type UserRepository interface {
-	Fetch(ctx context.Context, cursor string) (res []User, nextCursor string, err error)
+	Fetch(ctx context.Context) (res []User, err error)
 	GetByID(ctx context.Context, id int64) (User, error)
 	Update(ctx context.Context, ar *User) error
 	Store(ctx context.Context, a *User) error
