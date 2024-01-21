@@ -67,7 +67,7 @@ func (m *mysqlUserRepository) Fetch(ctx context.Context) (res []domain.User, err
 }
 
 func (m *mysqlUserRepository) FetchByBirthDay(ctx context.Context, birthday time.Time) (res []domain.User, err error) {
-	query := `SELECT * FROM user WHERE EXTRACT(MONTH FROM birthday) = ? AND EXTRACT(DAY FROM birthday) = ?`
+	query := `SELECT * FROM user WHERE EXTRACT(MONTH FROM birthday) = ? AND EXTRACT(DAY FROM birthday) = ? AND verifiedStatus = 1`
 
 	res, err = m.fetch(ctx, query, birthday.Month(), birthday.Day())
 	if err != nil {
